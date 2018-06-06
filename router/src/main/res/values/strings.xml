@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Router</string>
+    <string name="default_scheme">http</string>
+    <string name="default_host">www.8531.cn</string>
+</resources>
