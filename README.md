@@ -52,3 +52,35 @@
 		```
 		
 		Activity获取参数 ``String id = getIntent().getStringExtra("id");``
+		
+7. 路由拦截
+	重写方法onIntercept 返回true表示拦截
+	
+	```
+    @Override
+    protected boolean onIntercept(Context context, Fragment fragment, Intent intent, int requestCode) {
+        Intent temp = queryIntent(context, intent);
+        if (temp != null) {
+            startActivity(context, fragment, temp, requestCode);
+            return true;
+        } else {
+            return false;
+        }
+    }
+	```
+8. 全局添加参数
+
+```
+public class RouterApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Router.addInterceptor(new Router.Interceptor() {
+            @Override
+            public void before(Uri uri) {
+                uri.buildUpon().appendQueryParameter("session","session_id");
+            }
+        });
+    }
+}
+```
