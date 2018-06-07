@@ -12,7 +12,8 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         String id = getIntent().getStringExtra("id");
         String time = getIntent().getData().getQueryParameter("time");
+        String session = getIntent().getData().getQueryParameter("session");
         TextView info = findViewById(R.id.textView);
-        info.setText("id:" + id + "\n" + "time:" + time);
+        info.setText("id:" + id + "\ntime:" + time + "\nsession:" + session);
     }
 }

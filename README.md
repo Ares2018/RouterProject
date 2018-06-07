@@ -77,8 +77,8 @@ public class RouterApplication extends Application {
         super.onCreate();
         Router.addInterceptor(new Router.Interceptor() {
             @Override
-            public void before(Uri uri) {
-                uri.buildUpon().appendQueryParameter("session","session_id");
+            public Uri before(Uri uri) {
+                return uri.buildUpon().appendQueryParameter("session","session"+System.currentTimeMillis()).build();
             }
         });
     }

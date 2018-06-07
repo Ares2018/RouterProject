@@ -139,7 +139,7 @@ public class Router {
 
         if (sInterceptors != null && sInterceptors.size() > 0) {
             for (Interceptor interceptor : sInterceptors) {
-                interceptor.before(uri);
+                uri = interceptor.before(uri);
             }
         }
         mIntent.setData(uri.normalizeScheme());
@@ -197,6 +197,6 @@ public class Router {
     }
 
     public interface Interceptor {
-        void before(Uri uri);
+        Uri before(Uri uri);
     }
 }
