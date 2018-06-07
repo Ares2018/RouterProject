@@ -41,11 +41,7 @@
 5. 调用方法 ``Router.with(this).to("http://www.8531.cn/detail");``
 6. 页面间参数传递
 	* 通过URL中添加参数方法 例如:http://www.8531.cn/detail?id=12244&time=12333  
-	 	   Activity获取参数
-	 	   
-	 	   ```
-	 	   String id = getIntent().getData().getQueryParameter("id");
-	 	   ```
+	 	   Activity获取参数 ``String id = getIntent().getData().getQueryParameter("id");``
 	* 通过intent方法
 	
 		```
