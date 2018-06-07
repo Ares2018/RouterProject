@@ -22,7 +22,7 @@
 3. 确定应用中唯一的URI。例如:http://www.8531.cn/detail
 4. AndroidManifest.xml配置
 	
-		```
+	```
 	        <activity android:name=".DetailActivity">
 	            <intent-filter>
 	                <action android:name="android.intent.action.VIEW" />
@@ -36,7 +36,7 @@
 	                    android:scheme="http" />
 	            </intent-filter>
 	        </activity>	
-	        ```
+	```
         
 5. 调用方法 ``Router.with(this).to("http://www.8531.cn/detail");``
 6. 页面间参数传递
