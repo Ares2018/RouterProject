@@ -1,9 +1,8 @@
 package cn.daily.android;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import cn.daily.router.Router;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,9 +10,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bundle args=new Bundle();
-        args.putString("id","12345");
-        args.putLong("time",12345);
-        Router.with(this).setExtras(args).to("http://www.8531.cn/detail");
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args=new Bundle();
+                args.putString("id","12345");
+                Nav.with(v.getContext()).setExtras(args).to("http://www.8531.cn/detail?time="+System.currentTimeMillis());
+            }
+        });
     }
 }
