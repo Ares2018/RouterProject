@@ -148,7 +148,7 @@ public class Router {
             return false;
         }
 
-        return parseIntent(mContext, mFragment, mIntent, mRequestCode);
+        return queryIntent(mContext, mFragment, mIntent, mRequestCode);
     }
 
     protected boolean onIntercept(Context context, Fragment fragment, Intent intent, int requestCode) {
@@ -156,7 +156,7 @@ public class Router {
     }
 
 
-    protected boolean parseIntent(Context context, Fragment fragment, Intent intent, int requestCode) {
+    protected boolean queryIntent(Context context, Fragment fragment, Intent intent, int requestCode) {
         List<ResolveInfo> resolveInfoList = context.getPackageManager().queryIntentActivities
                 (intent, PackageManager.MATCH_ALL);
         try {
@@ -173,7 +173,7 @@ public class Router {
                 }
                 intent.setClassName(activityInfo.packageName, activityInfo.name);
             }
-            startIntent(context, fragment, intent, requestCode);
+            startActivity(context, fragment, intent, requestCode);
             return true;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
@@ -181,7 +181,7 @@ public class Router {
         }
     }
 
-    private void startIntent(Context context, Fragment fragment, Intent intent, int requestCode) {
+    protected void startActivity(Context context, Fragment fragment, Intent intent, int requestCode) {
         if (fragment != null) {
             fragment.startActivityForResult(intent, requestCode);
         } else if (context instanceof Activity) {
