@@ -1,5 +1,7 @@
 # 路由框架
-原理:Android原生隐式调用规则。根据AndroidMainifest.xml中intent-filter中的配置进行Activity的查找，匹配成功进入对应的Activity页面，匹配失败使用默认浏览器打开。
+## 原理
+Android原生隐式调用规则。根据AndroidMainifest.xml中intent-filter中的配置进行Activity的查找，匹配成功进入对应的Activity页面，匹配失败使用默认浏览器打开.  
+[Android 官方文档](https://developer.android.com/guide/components/intents-filters)
 ## 使用方法
 
 ### 添加依赖
