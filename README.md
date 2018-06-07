@@ -72,17 +72,17 @@ Android原生隐式调用规则。根据AndroidMainifest.xml中intent-filter中�
 	```
 8. 全局添加参数
 
-```
-public class RouterApplication extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Router.addInterceptor(new Router.Interceptor() {
-            @Override
-            public Uri before(Uri uri) {
-                return uri.buildUpon().appendQueryParameter("session","session"+System.currentTimeMillis()).build();
-            }
-        });
-    }
-}
-```
+	```
+	public class RouterApplication extends Application {
+	    @Override
+	    public void onCreate() {
+	        super.onCreate();
+	        Router.addInterceptor(new Router.Interceptor() {
+	            @Override
+	            public Uri before(Uri uri) {
+	                return uri.buildUpon().appendQueryParameter("session","session"+System.currentTimeMillis()).build();
+	            }
+	        });
+	    }
+	}
+	```
