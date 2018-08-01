@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/host"
                     android:path="/detail"
                     android:scheme="http" />
             </intent-filter>
