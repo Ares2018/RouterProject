@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,7 +69,7 @@ public class Router {
     }
 
     public boolean toPath(String path) {
-        return to(handlePath(path));
+        return to(handlePath(path),DEFAULT_REQUEST_CODE);
     }
 
     public boolean toPath(String path, int requestCode) {
@@ -76,14 +77,21 @@ public class Router {
     }
 
     @Nullable
-    private String handlePath(String path) {
-        if (!TextUtils.isEmpty(path) && path.startsWith("/")) {
-            path = mContext.getString(R.string.default_scheme)
-                    + "://"
-                    + mContext.getString(R.string.default_host)
-                    + path;
+    private Uri handlePath(String path) {
+        Uri uri = null;
+        if (sInterceptors != null && sInterceptors.size() > 0) {
+            for (Interceptor interceptor : sInterceptors) {
+                uri = interceptor.buildByPath(mContext, path);
+            }
         }
-        return path;
+        if (uri == null) {
+            uri = Uri.parse(path)
+                    .buildUpon()
+                    .scheme(mContext.getString(R.string.default_scheme))
+                    .authority(mContext.getString(R.string.default_host))
+                    .build();
+        }
+        return uri;
     }
 
     public Router setExtras(Bundle bundle) {
@@ -142,7 +150,11 @@ public class Router {
                 uri = interceptor.before(uri);
             }
         }
-        mIntent.setData(uri.normalizeScheme());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mIntent.setData(uri.normalizeScheme());
+        }else {
+            mIntent.setData(uri);
+        }
 
         if (onIntercept(mContext, mFragment, mIntent, mRequestCode)) {
             return false;
@@ -198,5 +210,7 @@ public class Router {
 
     public interface Interceptor {
         Uri before(Uri uri);
+
+        Uri buildByPath(Context context, String path);
     }
 }
