@@ -47,6 +47,10 @@ public class Router {
         return new Router(fragment);
     }
 
+    /**
+     * 添加全局拦截器
+     * @param interceptor
+     */
     public static void addInterceptor(Interceptor interceptor) {
         if (sInterceptors == null) {
             sInterceptors = new ArrayList<>();
@@ -54,10 +58,21 @@ public class Router {
         sInterceptors.add(interceptor);
     }
 
+    /**
+     * 根据URL进行页面跳转
+     * @param url
+     * @return
+     */
     public boolean to(String url) {
         return to(url, DEFAULT_REQUEST_CODE);
     }
 
+    /**
+     * 根据URL和RequestCode进行跳转
+     * @param url
+     * @param requestCode
+     * @return
+     */
     public boolean to(String url, int requestCode) {
         if (TextUtils.isEmpty(url)) {
             if (BuildConfig.DEBUG) {
@@ -68,10 +83,20 @@ public class Router {
         return to(Uri.parse(url), requestCode);
     }
 
+    /**
+     * 具有固定的host和Scheme通过Path进行跳转
+     * @param path
+     * @return
+     */
     public boolean toPath(String path) {
         return to(handlePath(path),DEFAULT_REQUEST_CODE);
     }
 
+    /**
+     * @param path
+     * @param requestCode
+     * @return
+     */
     public boolean toPath(String path, int requestCode) {
         return to(handlePath(path), requestCode);
     }
@@ -94,17 +119,32 @@ public class Router {
         return uri;
     }
 
+    /**
+     * 页面之间传递参数
+     * @param bundle
+     * @return
+     */
     public Router setExtras(Bundle bundle) {
         mBundle = bundle;
         return this;
     }
 
 
+    /**
+     * 设置Action
+     * @param action
+     * @return
+     */
     public Router setAction(String action) {
         mAction = action;
         return this;
     }
 
+    /**
+     * 添加Category
+     * @param category
+     * @return
+     */
     public Router addCategory(String category) {
         if (mCategories == null) {
             mCategories = new ArrayList<>();
@@ -113,6 +153,11 @@ public class Router {
         return this;
     }
 
+    /**
+     * 删除Category
+     * @param category
+     * @return
+     */
     public Router removeCategory(String category) {
         if (mCategories != null && mCategories.size() > 0) {
             mCategories.remove(category);
@@ -120,6 +165,12 @@ public class Router {
         return this;
     }
 
+    /**
+     * 根据uri和requestCode进行页面跳转
+     * @param uri
+     * @param requestCode
+     * @return
+     */
     public boolean to(Uri uri, int requestCode) {
 
         if (uri == null) {
@@ -168,6 +219,14 @@ public class Router {
         return false;
     }
 
+    /**
+     * 子类定制
+     * @param context
+     * @param fragment
+     * @param intent
+     * @param requestCode
+     * @return
+     */
     protected boolean onIntercept(Context context, Fragment fragment, Intent intent, int requestCode) {
         return false;
     }
@@ -209,8 +268,19 @@ public class Router {
     }
 
     public interface Interceptor {
+        /**
+         * 全局拦截uri,进行全局修改
+         * @param uri
+         * @return
+         */
         Uri before(Uri uri);
 
+        /**
+         * 动态修改Router.toPath()中默认的host和Scheme
+         * @param context
+         * @param path
+         * @return
+         */
         Uri buildByPath(Context context, String path);
     }
 }

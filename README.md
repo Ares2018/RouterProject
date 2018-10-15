@@ -19,7 +19,7 @@ Android原生隐式调用规则。根据AndroidMainifest.xml中intent-filter中�
 2. 项目工程build.gradle 添加依赖,最新版本请查看 [最新版本](http://10.100.62.98:8086/nexus/#nexus-search;gav~cn.daily.android~router~~~)
 
 	```
-	compile 'cn.daily.android:router:0.0.1.6-SNAPSHOT'
+	compile 'cn.daily.android:router:0.0.1.8-SNAPSHOT'
 	```
 3. 确定应用中唯一的URI。例如:http://www.8531.cn/detail
 4. AndroidManifest.xml配置
@@ -70,19 +70,24 @@ Android原生隐式调用规则。根据AndroidMainifest.xml中intent-filter中�
         }
     }
 	```
-8. 全局添加参数
+8. 全局添加参数修改默认值
 
 	```
 	public class RouterApplication extends Application {
-	    @Override
-	    public void onCreate() {
-	        super.onCreate();
-	        Router.addInterceptor(new Router.Interceptor() {
-	            @Override
-	            public Uri before(Uri uri) {
-	                return uri.buildUpon().appendQueryParameter("session","session"+System.currentTimeMillis()).build();
-	            }
-	        });
-	    }
-	}
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            Router.addInterceptor(new Router.Interceptor() {
+                @Override
+                public Uri before(Uri uri) {
+                    return uri.buildUpon().appendQueryParameter("session", "session" + System.currentTimeMillis()).build();
+                }
+    
+                @Override
+                public Uri buildByPath(Context context, String path) {
+                    return Uri.parse(path).buildUpon().scheme("http").authority("www.daily.press.com").build();
+                }
+            });
+        }
+    }
 	```
