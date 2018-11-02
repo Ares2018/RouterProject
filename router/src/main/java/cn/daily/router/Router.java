@@ -236,24 +236,22 @@ public class Router {
         List<ResolveInfo> resolveInfoList = context.getPackageManager().queryIntentActivities
                 (intent, PackageManager.MATCH_ALL);
         try {
-            if (resolveInfoList == null || resolveInfoList.size() == 0) {
+            if (resolveInfoList == null || resolveInfoList.isEmpty()) {
                 throw new ActivityNotFoundException("Not match any Activity:" + intent.toString());
             } else {
-                ActivityInfo activityInfo = resolveInfoList.get(0).activityInfo;
-                //优先匹配应用自己的Activity
+                // 仅匹配应用自己的Activity
                 for (int i = 0; i < resolveInfoList.size(); i++) {
-                    if (resolveInfoList.get(i).activityInfo.packageName.equals(context.getPackageName())) {
-                        activityInfo = resolveInfoList.get(i).activityInfo;
-                        break;
+                    ActivityInfo activityInfo = resolveInfoList.get(i).activityInfo;
+                    if (activityInfo.packageName.equals(context.getPackageName())) {
+                        intent.setClassName(activityInfo.packageName, activityInfo.name);
+                        return intent;
                     }
                 }
-                intent.setClassName(activityInfo.packageName, activityInfo.name);
             }
-            return intent;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     protected void startActivity(Context context, Fragment fragment, Intent intent, int requestCode) {
