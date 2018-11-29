@@ -49,6 +49,7 @@ public class Router {
 
     /**
      * 添加全局拦截器
+     *
      * @param interceptor
      */
     public static void addInterceptor(Interceptor interceptor) {
@@ -59,7 +60,17 @@ public class Router {
     }
 
     /**
+     * 清除之前的所有的Activity
+     * @return
+     */
+    public Router clearTop() {
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return this;
+    }
+
+    /**
      * 根据URL进行页面跳转
+     *
      * @param url
      * @return
      */
@@ -69,6 +80,7 @@ public class Router {
 
     /**
      * 根据URL和RequestCode进行跳转
+     *
      * @param url
      * @param requestCode
      * @return
@@ -85,11 +97,12 @@ public class Router {
 
     /**
      * 具有固定的host和Scheme通过Path进行跳转
+     *
      * @param path
      * @return
      */
     public boolean toPath(String path) {
-        return to(handlePath(path),DEFAULT_REQUEST_CODE);
+        return to(handlePath(path), DEFAULT_REQUEST_CODE);
     }
 
     /**
@@ -121,6 +134,7 @@ public class Router {
 
     /**
      * 页面之间传递参数
+     *
      * @param bundle
      * @return
      */
@@ -132,6 +146,7 @@ public class Router {
 
     /**
      * 设置Action
+     *
      * @param action
      * @return
      */
@@ -142,6 +157,7 @@ public class Router {
 
     /**
      * 添加Category
+     *
      * @param category
      * @return
      */
@@ -155,6 +171,7 @@ public class Router {
 
     /**
      * 删除Category
+     *
      * @param category
      * @return
      */
@@ -167,6 +184,7 @@ public class Router {
 
     /**
      * 根据uri和requestCode进行页面跳转
+     *
      * @param uri
      * @param requestCode
      * @return
@@ -203,7 +221,7 @@ public class Router {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mIntent.setData(uri.normalizeScheme());
-        }else {
+        } else {
             mIntent.setData(uri);
         }
 
@@ -221,6 +239,7 @@ public class Router {
 
     /**
      * 子类定制
+     *
      * @param context
      * @param fragment
      * @param intent
@@ -268,6 +287,7 @@ public class Router {
     public interface Interceptor {
         /**
          * 全局拦截uri,进行全局修改
+         *
          * @param uri
          * @return
          */
@@ -275,6 +295,7 @@ public class Router {
 
         /**
          * 动态修改Router.toPath()中默认的host和Scheme
+         *
          * @param context
          * @param path
          * @return
