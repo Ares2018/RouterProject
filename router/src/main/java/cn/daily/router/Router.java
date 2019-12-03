@@ -69,6 +69,15 @@ public class Router {
     }
 
     /**
+     * SINGLE_TASK的启动方式
+     * @return
+     */
+    public Router singleTask() {
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return this;
+    }
+
+    /**
      * 根据URL进行页面跳转
      *
      * @param url
